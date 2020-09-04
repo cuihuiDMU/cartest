@@ -22,7 +22,7 @@ public class UserRealm extends AuthorizingRealm {
     //执行授权
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection arg0) {
-        System.out.println("授权");
+        System.out.println("授权1");
         //获取当前登录用户
         Subject subject = SecurityUtils.getSubject();
         User user = (User) subject.getPrincipal();
