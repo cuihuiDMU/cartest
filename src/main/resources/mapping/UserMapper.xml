@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cartest.pro.mapper.UserMapper">
+    <resultMap type="com.cartest.pro.pojo.User" id="UserResult">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="user_name" jdbcType="VARCHAR" property="name"/>
+        <result column="user_password" jdbcType="VARCHAR" property="password"/>
+        <result column="user_type" jdbcType="INTEGER" property="userType"/>
+        <result column="role_id" jdbcType="VARCHAR" property="roleId"/>
+    </resultMap>
+
+    <resultMap id="ResultNoPass" type="com.cartest.pro.pojo.User" >
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="user_name" jdbcType="VARCHAR" property="name"/>
+        <result column="user_type" jdbcType="INTEGER" property="userType"/>
+        <result column="role_id" jdbcType="VARCHAR" property="roleId"/>
+    </resultMap>
+
+    <select id="findUser" resultMap="UserResult">
+        select * from user where user_name=#{name} and user_password=#{password}
+    </select>
+
+    <insert id="add" parameterType="com.cartest.pro.pojo.User">
+        insert into user(id, user_name, user_password, user_type, role_id) value (null,#{name},#{password},#{userType},null)
+    </insert>
+
+    <update id="updateUser" >
+        update user set user_name=#{name},user_password = #{password},user_type = #{userType} where id = 1
+    </update>
+
+    <delete id="deleteUser" parameterType="java.lang.Integer">
+        delete from user where id = #{id}
+    </delete>
+
+    <select id="getAllUser" resultMap="ResultNoPass">
+        select * from user limit #{snum},#{sum}
+    </select>
+
+    <select id="getAllUserSize" resultType="java.lang.Integer">
+        select count(*) from user
+    </select>
+</mapper>

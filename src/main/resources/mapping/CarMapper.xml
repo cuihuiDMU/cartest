@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cartest.pro.mapper.CarMapper">
+    <resultMap id="BaseResultMap" type="com.cartest.pro.pojo.Car">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="car_number" jdbcType="VARCHAR" property="carNumber"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="test_date" jdbcType="DATE" property="testDate"/>
+        <result column="next_date" jdbcType="DATE" property="nextDate"/>
+        <result column="state" jdbcType="INTEGER" property="state"/>
+        <result column="state_desc" jdbcType="VARCHAR" property="stateDesc"/>
+        <result column="common_log" jdbcType="VARCHAR" property="commonLog"/>
+        <result column="create_time" jdbcType="DATE" property="createTime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,car_number,phone,DATE_FORMAT(test_date,'%Y-%m-%d') test_date,DATE_FORMAT(next_date,'%Y-%m-%d') next_date,state,state_desc,common_log,create_time
+    </sql>
+
+    <select id="getAllInfo" resultMap="BaseResultMap">
+    SELECT * from car where 1=1
+    <if test="carNumber != null and carNumber != ''">
+        AND car_number LIKE CONCAT('%',#{carNumber} , '%' ) escape '/'
+    </if>
+    <if test="phone != null and phone != ''">
+        AND phone LIKE CONCAT('%',#{phone} , '%' ) escape '/'
+    </if>
+    <if test="state != null and state != ''">
+        AND state = #{state}
+    </if>
+    <if test="commonLog != null and commonLog != ''">
+        AND common_log LIKE CONCAT('%',#{commonLog} , '%' ) escape '/'
+    </if>
+    <if test=" testStartDate !=null and testStartDate != '' and testEndDate !=null and testEndDate != '' ">
+        <![CDATA[ and ( test_date BETWEEN #{testStartDate} and #{testStartDate} ) ]]>
+    </if>
+    <if test=" nextStartDate !=null and nextStartDate != '' and nextEndDate !=null and nextEndDate != '' ">
+        <![CDATA[ and ( next_date BETWEEN #{nextStartDate} and #{nextEndDate} ) ]]>
+    </if>
+    order by create_time desc
+    limit #{snum},#{sum}
+</select>
+
+    <select id="getAllCar" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" /> from car where 1=1
+        <if test="carNumber != null and carNumber != ''">
+            AND car_number LIKE CONCAT('%',#{carNumber} , '%' ) escape '/'
+        </if>
+        <if test="phone != null and phone != ''">
+            AND phone LIKE CONCAT('%',#{phone} , '%' ) escape '/'
+        </if>
+        <if test="state != null and state != ''">
+            AND state = #{state}
+        </if>
+        <if test="commonLog != null and commonLog != ''">
+            AND common_log LIKE CONCAT('%',#{commonLog} , '%' ) escape '/'
+        </if>
+        <if test=" testStartDate !=null and testStartDate != '' and testEndDate !=null and testEndDate != '' ">
+            <![CDATA[ and ( test_date BETWEEN #{testStartDate} and #{testStartDate} ) ]]>
+        </if>
+        <if test=" nextStartDate !=null and nextStartDate != '' and nextEndDate !=null and nextEndDate != '' ">
+            <![CDATA[ and ( next_date BETWEEN #{nextStartDate} and #{nextEndDate} ) ]]>
+        </if>
+        order by create_time desc
+    </select>
+
+    <select id="getAllInfoSize" resultType="java.lang.Integer">
+        SELECT count(*) from car where 1=1
+        <if test="carNumber != null and carNumber != ''">
+            AND car_number LIKE CONCAT('%',#{carNumber} , '%' ) escape '/'
+        </if>
+        <if test="phone != null and phone != ''">
+            AND phone LIKE CONCAT('%', #{phone} , '%' ) escape '/'
+        </if>
+        <if test="state != null and state != ''">
+            AND state = #{state}
+        </if>
+        <if test="commonLog != null and commonLog != ''">
+            AND common_log LIKE CONCAT('%', #{commonLog} , '%' ) escape '/'
+        </if>
+        <if test=" testStartDate !=null and testStartDate != '' and testEndDate !=null and testEndDate != '' ">
+            <![CDATA[ and ( test_date BETWEEN #{testStartDate} and #{testStartDate} ) ]]>
+        </if>
+        <if test=" nextStartDate !=null and nextStartDate != '' and nextEndDate !=null and nextEndDate != '' ">
+            <![CDATA[ and ( next_date BETWEEN #{nextStartDate} and #{nextEndDate} ) ]]>
+        </if>
+    </select>
+
+    <update id="updateCarInfo" parameterType="com.cartest.pro.pojo.Car">
+        update car
+        <set>
+            <if test="carNumber != null">
+                car_number = #{carNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                phone = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="testDate != null">
+                test_date = #{testDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="nextDate != null">
+                next_date = #{nextDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="state != null">
+                state = #{state,jdbcType=INTEGER},
+            </if>
+            <if test="commonLog != null">
+                common_log = #{commonLog,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <insert id="batchInsert">
+        INSERT INTO  car (car_number,phone,test_date,next_date,common_log,state,state_desc,create_time)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.carNumber},#{item.phone},#{item.testDate},#{item.nextDate},#{item.commonLog},#{item.state},#{item.stateDesc},now())
+        </foreach>
+    </insert>
+
+    <insert id="addCar" parameterType="com.cartest.pro.pojo.Car">
+        insert into car (car_number,phone,test_date,next_date,common_log,state,state_desc,create_time)
+        values (#{carNumber},#{phone},#{testDate},#{nextDate},#{commonLog},#{state},#{stateDesc},now())
+    </insert>
+
+    <delete id="deleteCarInfo" parameterType="java.lang.Integer">
+        delete from car where id = #{id}
+    </delete>
+</mapper>

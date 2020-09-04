@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//ibatis.apache.org//DTD Config 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-config.dtd">
+<configuration>
+
+    <settings>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <!-- \u5168\u5c40\u6620\u5c04\u5668\u542f\u7528\u7f13\u5b58 -->
+        <setting name="cacheEnabled" value="true" />
+        <!-- \u67e5\u8be2\u65f6\uff0c\u5173\u95ed\u5173\u8054\u5bf9\u8c61\u5373\u65f6\u52a0\u8f7d\u4ee5\u63d0\u9ad8\u6027\u80fd -->
+        <setting name="lazyLoadingEnabled" value="true" />
+        <!--
+            \u8bbe\u7f6e\u5173\u8054\u5bf9\u8c61\u52a0\u8f7d\u7684\u5f62\u6001\uff0c\u6b64\u5904\u4e3a\u6309\u9700\u52a0\u8f7d\u5b57\u6bb5(\u52a0\u8f7d\u5b57\u6bb5\u7531SQL\u6307 \u5b9a)\uff0c\u4e0d\u4f1a\u52a0\u8f7d\u5173\u8054\u8868\u7684\u6240\u6709\u5b57\u6bb5\uff0c\u4ee5\u63d0\u9ad8\u6027\u80fd
+        -->
+
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+
+        <setting name="aggressiveLazyLoading" value="false" />
+        <!-- \u5bf9\u4e8e\u672a\u77e5\u7684SQL\u67e5\u8be2\uff0c\u5141\u8bb8\u8fd4\u56de\u4e0d\u540c\u7684\u7ed3\u679c\u96c6\u4ee5\u8fbe\u5230\u901a\u7528\u7684\u6548\u679c -->
+        <setting name="multipleResultSetsEnabled" value="true" />
+        <!-- \u5141\u8bb8\u4f7f\u7528\u5217\u6807\u7b7e\u4ee3\u66ff\u5217\u540d -->
+        <setting name="useColumnLabel" value="true" />
+        <!-- \u5141\u8bb8\u4f7f\u7528\u81ea\u5b9a\u4e49\u7684\u4e3b\u952e\u503c(\u6bd4\u5982\u7531\u7a0b\u5e8f\u751f\u6210\u7684UUID 32\u4f4d\u7f16\u7801\u4f5c\u4e3a\u952e\u503c)\uff0c\u6570\u636e\u8868\u7684PK\u751f\u6210\u7b56\u7565\u5c06\u88ab\u8986\u76d6 -->
+        <setting name="useGeneratedKeys" value="true" />
+        <!-- \u7ed9\u4e88\u88ab\u5d4c\u5957\u7684resultMap\u4ee5\u5b57\u6bb5-\u5c5e\u6027\u7684\u6620\u5c04\u652f\u6301 -->
+        <setting name="autoMappingBehavior" value="FULL" />
+        <!-- \u5bf9\u4e8e\u6279\u91cf\u66f4\u65b0\u64cd\u4f5c\u7f13\u5b58SQL\u4ee5\u63d0\u9ad8\u6027\u80fd   \u5982\u9700\u652f\u6301mysql,value\u503c\u9700\u6539\u4e3aSIMPLE    -->
+        <setting name="defaultExecutorType" value="SIMPLE" />
+        <!-- \u6709\u4e9b\u9a71\u52a8\u7a0b\u5e8f\u5728\u8fd4\u56de\u503c\u4e3aNULL\u65f6\u9700\u8981\u6307\u5b9aJDBC\u7c7b\u578b\uff0c\u5927\u90e8\u5206\u60c5\u51b5\u4e0b\u662f\uff1aNULL\u3001VARCHAR\u6216OTHER\u3002\u9ed8\u8ba4\u503cOTHER -->
+        <setting name="jdbcTypeForNull" value="NULL" />
+        <!-- \u6570\u636e\u5e93\u8d85\u8fc725000\u79d2\u4ecd\u672a\u54cd\u5e94\u5219\u8d85\u65f6 -->
+        <setting name="defaultStatementTimeout" value="25000" />
+    </settings>
+
+
+
+</configuration>
