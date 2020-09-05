@@ -33,7 +33,7 @@
         AND common_log LIKE CONCAT('%',#{commonLog} , '%' ) escape '/'
     </if>
     <if test=" testStartDate !=null and testStartDate != '' and testEndDate !=null and testEndDate != '' ">
-        <![CDATA[ and ( test_date BETWEEN #{testStartDate} and #{testStartDate} ) ]]>
+        <![CDATA[ and ( test_date BETWEEN #{testStartDate} and #{testEndDate} ) ]]>
     </if>
     <if test=" nextStartDate !=null and nextStartDate != '' and nextEndDate !=null and nextEndDate != '' ">
         <![CDATA[ and ( next_date BETWEEN #{nextStartDate} and #{nextEndDate} ) ]]>
@@ -57,7 +57,7 @@
             AND common_log LIKE CONCAT('%',#{commonLog} , '%' ) escape '/'
         </if>
         <if test=" testStartDate !=null and testStartDate != '' and testEndDate !=null and testEndDate != '' ">
-            <![CDATA[ and ( test_date BETWEEN #{testStartDate} and #{testStartDate} ) ]]>
+            <![CDATA[ and ( test_date BETWEEN #{testStartDate} and #{testEndDate} ) ]]>
         </if>
         <if test=" nextStartDate !=null and nextStartDate != '' and nextEndDate !=null and nextEndDate != '' ">
             <![CDATA[ and ( next_date BETWEEN #{nextStartDate} and #{nextEndDate} ) ]]>
@@ -80,7 +80,7 @@
             AND common_log LIKE CONCAT('%', #{commonLog} , '%' ) escape '/'
         </if>
         <if test=" testStartDate !=null and testStartDate != '' and testEndDate !=null and testEndDate != '' ">
-            <![CDATA[ and ( test_date BETWEEN #{testStartDate} and #{testStartDate} ) ]]>
+            <![CDATA[ and ( test_date BETWEEN #{testStartDate} and #{testEndDate} ) ]]>
         </if>
         <if test=" nextStartDate !=null and nextStartDate != '' and nextEndDate !=null and nextEndDate != '' ">
             <![CDATA[ and ( next_date BETWEEN #{nextStartDate} and #{nextEndDate} ) ]]>

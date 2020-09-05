@@ -3,6 +3,7 @@ package com.cartest.pro.service;
 import com.cartest.pro.pojo.Car;
 import com.cartest.pro.pojo.ResultInfo;
 import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 
 import java.util.List;
 
@@ -20,5 +21,5 @@ public interface CarService {
 
     int deleteCarInfo(int id);
 
-    void importCarExcel(Sheet craftSheet, ResultInfo resultInfo);
+    void importCarExcel(XSSFSheet craftSheet, ResultInfo resultInfo);
 }

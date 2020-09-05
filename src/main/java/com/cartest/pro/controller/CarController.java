@@ -7,6 +7,7 @@ import com.cartest.pro.pojo.ResultInfo;
 import com.cartest.pro.service.CarService;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddressList;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -55,6 +57,8 @@ public class CarController {
             List<Car> carList = new ArrayList<>();
            // carList.stream().forEach(item->item.setNextDate(Objects.isNull(item.getTestDate())?null:sdf.format(item.getNextDate())));
             carList = carService.getAllInfo(carNumber,phone,testStartDate,testEndDate,nextStartDate,nextEndDate,commonLog,state,(pageNum - 1) * pageSize, pageSize);
+            carList.stream().forEach(item->item.setTestDate(Objects.isNull(item.getTestDate())?null:item.getTestDate()));
+            carList.stream().forEach(item->item.setNextDate(Objects.isNull(item.getNextDate())?null:item.getNextDate()));
 
             if (Objects.isNull(carList)||carList.size()<1){
                 resultInfo.setValue(new PageHelper<Car>(
@@ -155,12 +159,13 @@ public class CarController {
         }
         try {
             // 上传excel
-            Workbook workbook = WorkbookFactory.create(excelFile.getInputStream());
+            InputStream is = excelFile.getInputStream();
+            XSSFWorkbook workbook = new XSSFWorkbook(is);
             int sheetNums = workbook.getNumberOfSheets();
             if (sheetNums==0){
                 return resultInfo.failResult("excel文件没有表数据");
             }
-            Sheet craftSheet = workbook.getSheetAt(0);
+            XSSFSheet craftSheet = workbook.getSheetAt(0);
             if (Objects.isNull(craftSheet)) {
                 return resultInfo.failResult("导入的excel内容为空");
             }

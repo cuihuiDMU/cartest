@@ -5,10 +5,13 @@ import com.cartest.pro.pojo.Car;
 import com.cartest.pro.pojo.ResultInfo;
 import com.cartest.pro.service.CarService;
 import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
+import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,14 +60,14 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public void importCarExcel(Sheet craftSheet, ResultInfo resultInfo) {
+    public void importCarExcel(XSSFSheet craftSheet, ResultInfo resultInfo) {
         try {
             int totalRows = craftSheet.getPhysicalNumberOfRows();
             if (totalRows<2){
                 resultInfo.failResult("文件内容有误");
                 return ;
             }
-            Row firstRow = craftSheet.getRow(0);
+            XSSFRow firstRow = craftSheet.getRow(0);
             int totalCols = firstRow.getLastCellNum();
             if (totalCols!=6){
                 resultInfo.failResult("文件内容有误");
@@ -72,7 +75,7 @@ public class CarServiceImpl implements CarService {
             }
             List<Car> carList = new ArrayList<>();
             for (int rowNum=1;rowNum<totalRows;rowNum++){
-                Row row = craftSheet.getRow(rowNum);
+                XSSFRow row = craftSheet.getRow(rowNum);
                 Car car = new Car();
                 if (Objects.nonNull(row.getCell(0))){
                     row.getCell(0).setCellType(CellType.STRING);
@@ -86,15 +89,16 @@ public class CarServiceImpl implements CarService {
                 }
                 if (Objects.nonNull(row.getCell(2))){
                     //row.getCell(2).setCellType(CellType.NUMERIC);
-                    boolean isDate = DateUtil.isCellDateFormatted(row.getCell(2));
+                    boolean isDate = row.getCell(2).getCellTypeEnum() != CellType.STRING && DateUtil.isCellDateFormatted(row.getCell(2));
                     if (isDate){
                         car.setTestDate(row.getCell(2).getDateCellValue());
                     }
                 }
                 if (Objects.nonNull(row.getCell(3))){
-                    boolean isDate = DateUtil.isCellDateFormatted(row.getCell(3));
+                    boolean isDate = row.getCell(3).getCellTypeEnum() != CellType.STRING && DateUtil.isCellDateFormatted(row.getCell(3));
                     if (isDate){
                         car.setNextDate(row.getCell(3).getDateCellValue());
+                        //Date date = HSSFDateUtil.getJavaDate(row.getCell(3).getNumericCellValue());
                     }
                 }
                 if (Objects.nonNull(row.getCell(4))){
